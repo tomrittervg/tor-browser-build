@@ -1,8 +1,9 @@
 # vim: filetype=yaml sw=2
 version: '[% c("abbrev") %]'
 filename: 'firefox-[% c("version") %]-[% c("var/osname") %]-[% c("var/build_id") %]'
-git_hash: 'tor-browser-[% c("var/firefox_version") %]-[% c("var/torbrowser_branch") %]-1-build2'
-tag_gpg_id: 1
+#git_hash: 'tor-browser-[% c("var/firefox_version") %]-[% c("var/torbrowser_branch") %]-1-build2'
+#tag_gpg_id: 1
+git_hash: f4f2ffd2aa14ca8a144e9fc8d773fca4c040e3f5
 git_url: https://git.torproject.org/tor-browser.git
 gpg_keyring: torbutton.gpg
 
@@ -107,6 +108,16 @@ input_files:
   - filename: 1464084.patch
     enable: '[% c("var/windows") %]'
   - filename: 1467041.patch
+    enable: '[% c("var/windows") %]'
+  - filename: tomtest.patch
+    enable: '[% c("var/windows") %]'
+  - filename: tomdebug.patch
+    enable: '[% c("var/windows") %]'
+  - filename: tomasserts.patch
+    enable: '[% c("var/windows") %]'
+  - filename: 1389967.patch
+    enable: '[% c("var/windows") %]'
+  - filename: 1448748.patch
     enable: '[% c("var/windows") %]'
   - project: rust
     name: rust

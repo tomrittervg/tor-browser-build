@@ -69,3 +69,5 @@ rm /etc/resolv.conf
 Restart network-manager
 
 sudo service network-manager restart
+
+

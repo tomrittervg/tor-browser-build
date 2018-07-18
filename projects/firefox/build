@@ -117,10 +117,10 @@ fi
   # http://msdn.microsoft.com/en-us/library/k59z8dwe.aspx.
   sed 's/strcmpi/stricmp/' -i nsprpub/pr/src/linking/prlink.c
   export HOST_LDFLAGS=" "
-  export LDFLAGS="-specs=/var/tmp/dist/mingw-w64/msvcr100.spec"
+  #export LDFLAGS="-specs=/var/tmp/dist/mingw-w64/msvcr100.spec"
   # Our flags don't get passed to NSS. We need to do that manually using an
   # obscure one.
-  export DLLFLAGS="-specs=/var/tmp/dist/mingw-w64/msvcr100.spec"
+  #export DLLFLAGS="-specs=/var/tmp/dist/mingw-w64/msvcr100.spec"
 
   # Make sure widl is not inserting random timestamps, see #21837.
   export WIDL_TIME_OVERRIDE="0"
@@ -136,12 +136,18 @@ fi
   patch -p1 < $rootdir/nsis-uninstall.patch
   patch -p1 < $rootdir/1464084.patch
   patch -p1 < $rootdir/1467041.patch
+  patch -p1 < $rootdir/tomtest.patch
+  patch -p1 < $rootdir/1389967.patch
+  patch -p1 < $rootdir/1448748.patch
+  patch -p1 < $rootdir/tomdebug.patch
+  patch -p1 < $rootdir/tomasserts.patch
 [% END -%]
 
 rm -f configure
 rm -f js/src/configure
 
-./mach configure --with-tor-browser-version=[% c("var/torbrowser_version") %] --with-distribution-id=org.torproject --enable-update-channel=[% c("var/torbrowser_update_channel") %] --enable-bundled-fonts
+
+./mach configure --enable-bundled-fonts
 ./mach build --verbose
 ./mach build stage-package
 
@@ -172,8 +178,8 @@ rm -f js/src/configure
 [% END -%]
 [% IF c("var/windows") %]
   cp -a obj-*/dist/firefox/* $distdir/Browser/
-  cp -a $rootdir/msvcr100.dll $distdir/Browser
-  cp -a $gcclibs/libssp-0.dll $distdir/Browser
+  #cp -a $rootdir/msvcr100.dll $distdir/Browser
+  #cp -a $gcclibs/libssp-0.dll $distdir/Browser
   cp -a $fxcdir/d3dcompiler_47.dll $distdir/Browser
 [% END %]
 

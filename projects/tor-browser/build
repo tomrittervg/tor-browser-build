@@ -171,23 +171,23 @@ pushd "$TBDIR[% IF c("var/osx") %]/Contents/Resources[% END %]/browser/"
 unzip omni.ja chrome/en-US/locale/browser/searchplugins* || [ $? -lt 3 ]
 mv chrome/en-US/locale/browser/searchplugins $rootdir
 rm -rf chrome/en-US
-unzip omni.ja defaults/preferences/000-tor-browser.js || [ $? -lt 3 ]
+#unzip omni.ja defaults/preferences/000-tor-browser.js || [ $? -lt 3 ]
 # Append our built extension-overrides.js to 000-tor-browser.js
-cat "$GENERATEDPREFSPATH" >> defaults/preferences/000-tor-browser.js
-cp defaults/preferences/000-tor-browser.js $rootdir
-[% IF c("var/osx") %]
+#cat "$GENERATEDPREFSPATH" >> defaults/preferences/000-tor-browser.js
+#cp defaults/preferences/000-tor-browser.js $rootdir
+#[% IF c("var/osx") %]
   # Embed our default bookmarks within the en-US locale.
-  mkdir -p chrome/en-US/locale/browser
-  cp -p $rootdir/bookmarks.html chrome/en-US/locale/browser/
-  [% c("var/touch") %] chrome/en-US/locale/browser/bookmarks.html
-  zip -Xm omni.ja chrome/en-US/locale/browser/bookmarks.html
-  rm -rf chrome
-[% END %]
+#  mkdir -p chrome/en-US/locale/browser
+#  cp -p $rootdir/bookmarks.html chrome/en-US/locale/browser/
+#  [% c("var/touch") %] chrome/en-US/locale/browser/bookmarks.html
+#  zip -Xm omni.ja chrome/en-US/locale/browser/bookmarks.html
+#  rm -rf chrome
+#[% END %]
 # Set the locale of the bundle.
-echo "pref(\"intl.locale.requested\", \"en-US\");" >> defaults/preferences/000-tor-browser.js
-[% c("var/touch") %] defaults/preferences/000-tor-browser.js
-zip -Xm omni.ja defaults/preferences/000-tor-browser.js
-rm -rf defaults
+#echo "pref(\"intl.locale.requested\", \"en-US\");" >> defaults/preferences/000-tor-browser.js
+#[% c("var/touch") %] defaults/preferences/000-tor-browser.js
+#zip -Xm omni.ja defaults/preferences/000-tor-browser.js
+#rm -rf defaults
 # create tbb_version.json file for #25020
 echo '{"version":"[% c("var/torbrowser_version") %]","architecture":"[% c("var/mar_osname") %]","channel":"[% c("var/channel") %]","locale":"en-US"}' > ../tbb_version.json
 popd
@@ -266,14 +266,14 @@ popd
 cd $distdir
 
 [% IF c("var/build_mar") -%]
-  [% IF c("var/release") -%]
-    # Let's use the bzip2 format for now so that users can update to the first
-    # esr60-based Tor Browser.
-    export MAR_OLD_FORMAT=1
-  [% END -%]
-  # Create full MAR file and compressed package.
-  MAR_FILE=tor-browser-[% c("var/mar_osname") %]-[% c("var/torbrowser_version") %]_${PKG_LOCALE}.mar
-  MAR=$MARTOOLS/mar MBSDIFF=$MARTOOLS/mbsdiff $MARTOOLS/make_full_update.sh -q $OUTDIR/$MAR_FILE "$TBDIR"
+#  [% IF c("var/release") -%]
+#    # Let's use the bzip2 format for now so that users can update to the first
+#    # esr60-based Tor Browser.
+#    export MAR_OLD_FORMAT=1
+#  [% END -%]
+#  # Create full MAR file and compressed package.
+#  MAR_FILE=tor-browser-[% c("var/mar_osname") %]-[% c("var/torbrowser_version") %]_${PKG_LOCALE}.mar
+#  MAR=$MARTOOLS/mar MBSDIFF=$MARTOOLS/mbsdiff $MARTOOLS/make_full_update.sh -q $OUTDIR/$MAR_FILE "$TBDIR"
 [% END -%]
 
 [% IF c("var/linux") %]
@@ -328,12 +328,12 @@ cp $rootdir/[% c('input_files_by_name/firefox') %]/mar-tools-*.zip "$OUTDIR"/
 
       pushd "[% browserdir %]/[% IF c("var/osx") %]Contents/Resources/[% END %]browser/"
       mkdir -p defaults/preferences
-      cp $rootdir/000-tor-browser.js defaults/preferences/
+      #cp $rootdir/000-tor-browser.js defaults/preferences/
       # Set the locale of the bundle.
-      echo "pref(\"intl.locale.requested\", \"[% lang %]\");" >> defaults/preferences/000-tor-browser.js
-      [% c("var/touch") %] defaults/preferences/000-tor-browser.js
-      zip -Xm omni.ja defaults/preferences/000-tor-browser.js
-      rm -rf defaults
+      #echo "pref(\"intl.locale.requested\", \"[% lang %]\");" >> defaults/preferences/000-tor-browser.js
+      #[% c("var/touch") %] defaults/preferences/000-tor-browser.js
+      #zip -Xm omni.ja defaults/preferences/000-tor-browser.js
+      #rm -rf defaults
       # create tbb_version.json file for #25020
       echo '{"version":"[% c("var/torbrowser_version") %]","architecture":"[% c("var/mar_osname") %]","channel":"[% c("var/channel") %]","locale":"[% lang %]"}' > ../tbb_version.json
       popd
@@ -351,8 +351,8 @@ cp $rootdir/[% c('input_files_by_name/firefox') %]/mar-tools-*.zip "$OUTDIR"/
       popd
 
       # Create full MAR file and compressed package for this locale.
-      MAR_FILE=tor-browser-[% c("var/mar_osname") %]-[% c("var/torbrowser_version") %]_[% lang %].mar
-      MAR=$MARTOOLS/mar MBSDIFF=$MARTOOLS/mbsdiff $MARTOOLS/make_full_update.sh -q $OUTDIR/$MAR_FILE "[% browserdir %]"
+      #MAR_FILE=tor-browser-[% c("var/mar_osname") %]-[% c("var/torbrowser_version") %]_[% lang %].mar
+      #MAR=$MARTOOLS/mar MBSDIFF=$MARTOOLS/mbsdiff $MARTOOLS/make_full_update.sh -q $OUTDIR/$MAR_FILE "[% browserdir %]"
       [% IF c("var/linux") %]
         [% SET tardir = 'tor-browser_' _ lang;
           c('tar', {
