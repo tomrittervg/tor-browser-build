@@ -147,7 +147,7 @@ rm -f configure
 rm -f js/src/configure
 
 
-./mach configure --enable-bundled-fonts
+./mach configure
 ./mach build --verbose
 ./mach build stage-package
 
